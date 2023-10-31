@@ -4,7 +4,6 @@ from decouple import config
 from urllib.parse import urlencode
 import json
 
-message = "Hello world"
 
 """ This is a function for sending a verification code to the new user """
 def send_authentication_code(phone_number: str, verification_code: str)->str:
@@ -15,16 +14,18 @@ def send_authentication_code(phone_number: str, verification_code: str)->str:
     }
 
     payload = urlencode({
-        "username": config("username"),
+        "username": "sandbox",
         "to": phone_number,
         "message": f"Your Amredi verification code is: {verification_code}",
         "from": config("alphanumeric")
     })
+    print(config("username"))
 
     url = "https://api.sandbox.africastalking.com/version1/messaging"
 
     try:
         request = requests.post(url=url, headers=headers, data=payload)
+        print(request.content)
         if request.status_code == 201:
             response = json.dumps(request.json(), sort_keys=True, indent=4, ensure_ascii=False)
             print(response)
@@ -36,8 +37,8 @@ def send_authentication_code(phone_number: str, verification_code: str)->str:
     except Exception as e:
         logging.error(f"Opps! an error has occuured: {str(e)}")
 
-if __name__ == "__main__":
-    send_authentication_code("254743596183","12345")
+# if __name__ == "__main__":
+#     # send_authentication_code("254743596183","12345")
 
 
 
