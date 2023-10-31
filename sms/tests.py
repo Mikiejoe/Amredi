@@ -1,3 +1,4 @@
-from django.test import TestCase
+from sms import send_authentication_code, message
+print(message)
 
-# Create your tests here.
+send_authentication_code("123", "123")
